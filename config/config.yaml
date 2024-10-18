@@ -1,0 +1,35 @@
+# CSV paths configuration (Raw CSV files)
+csv_paths:
+  transactions: data/raw/transactions.csv
+  accounts: data/raw/accounts.csv
+  customers: data/raw/customers.csv
+
+# Data paths configuration (Parquet files)
+data_paths:
+  transactions: data/raw/transactions.parquet
+  accounts: data/raw/accounts.parquet
+  customers: data/raw/customers.parquet
+
+# Export paths configuration
+export_paths:
+  classified_data: data/processed/classified_data
+  weekly_aggregates: data/processed/weekly_aggregates
+  largest_transactions: data/processed/largest_transactions
+  total_deposits_withdrawals: data/processed/total_deposits_withdrawals
+  total_balance_by_account_type: data/processed/total_balance_by_account_type
+  avg_transaction_per_customer: data/processed/avg_transaction_per_customer
+
+# Logging configuration file path
+logging_config: config/logging.yaml
+
+spark:
+  app_name: DataPipeline
+  master: local[*]
+  configs:
+    spark.serializer: org.apache.spark.serializer.KryoSerializer
+    spark.sql.shuffle.partitions: 200
+    spark.sql.adaptive.enabled: true
+    spark.sql.adaptive.skewJoin.enabled: true
+    spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+    spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
+    spark.jars.packages: io.delta:delta-spark_2.12:3.2.0
